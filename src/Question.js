@@ -10,6 +10,7 @@ const Question = ({ questions }) => {
   const [questionNumber, setQuestionNumber] = useState(0);
   const [checkedNumber, setCheckedNumber] = useState(-1);
   const [showAnswer, setShowAnswer] = useState(false);
+  const [userQuestionNumber, setUserQuestionNumber] = useState();
 
   const question = questions[questionNumber];
 
@@ -17,11 +18,18 @@ const Question = ({ questions }) => {
     setCheckedNumber(num);
   };
 
+  const handleInputChange = event => {
+    console.log("input="+event.target.value)
+    setUserQuestionNumber(event.target.value);
+  };
+
   return (
     <div>
       {console.log(questionNumber)}
       <Typography variant="h2">{question.number}</Typography>
-      <Typography class ="question-text" variant="h4">{question.q}</Typography>
+      <Typography class="question-text" variant="h4">
+        {question.q}
+      </Typography>
       <List>
         {question.answers.map((ans, index) => (
           <div className={colorizeAnswer(checkedNumber == ans.number)}>
@@ -59,14 +67,35 @@ const Question = ({ questions }) => {
           </Button>
         </div>
 
-        <div class ="submit">
-          <Button variant="contained" size="large" onClick={() => chooseAnswer()}>
+        <div class="submit">
+          <Button
+            variant="contained"
+            size="large"
+            onClick={() => chooseAnswer()}
+          >
             SUBMIT
           </Button>
+        </div>
+
+        <div>
+          <Button onClick={() => handleUserQuestionChoose()}>GET TEST</Button>
+          <input
+            onChange={handleInputChange}
+            id="outlined-basic"
+            label="Outlined"
+            variant="outlined"
+          />
         </div>
       </div>
     </div>
   );
+
+
+
+  function handleUserQuestionChoose() {
+    console.log("question num =" +userQuestionNumber);
+    setQuestionNumber(userQuestionNumber-1);
+  }
 
   function chooseAnswer() {
     if (checkedNumber != -1) {
