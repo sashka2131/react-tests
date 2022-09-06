@@ -2,3 +2,27 @@
   font-family: sans-serif;
   text-align: center;
 }
+
+.false-answer{
+  background-color:salmon;
+}
+
+
+.right-answer{
+  background-color: darkseagreen;
+}
+
+.nav-buttons{
+  margin-bottom: 40px;
+}
+
+.shtativchiki{
+  margin-bottom: 30px;
+}
+
+.question-text{
+  margin-top: 30px;
+  margin-bottom: 30px;
+
+  font-size: 30px;
+}
