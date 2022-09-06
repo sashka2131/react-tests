@@ -18,14 +18,12 @@ const Question = ({ questions }) => {
     setCheckedNumber(num);
   };
 
-  const handleInputChange = event => {
-    console.log("input="+event.target.value)
+  const handleInputChange = (event) => {
     setUserQuestionNumber(event.target.value);
   };
 
   return (
     <div>
-      {console.log(questionNumber)}
       <Typography variant="h2">{question.number}</Typography>
       <Typography class="question-text" variant="h4">
         {question.q}
@@ -90,20 +88,17 @@ const Question = ({ questions }) => {
     </div>
   );
 
-
-
   function handleUserQuestionChoose() {
-    console.log("question num =" +userQuestionNumber);
-    setQuestionNumber(userQuestionNumber-1);
+    setShowAnswer(false);
+    setCheckedNumber(-1);
+    setQuestionNumber(userQuestionNumber - 1);
   }
 
   function chooseAnswer() {
     if (checkedNumber != -1) {
       setShowAnswer(true);
       if (question.right == checkedNumber) {
-        console.log("RIGHT");
       } else {
-        console.log("FALSE");
       }
     }
   }
@@ -111,10 +106,8 @@ const Question = ({ questions }) => {
   function colorizeAnswer(checked) {
     if (showAnswer) {
       if (checkedNumber != question.right && checked) {
-        console.log("false-answer");
         return "false-answer";
       } else if (checkedNumber == question.right && checked) {
-        console.log("right-answer");
         return "right-answer";
       }
     }
