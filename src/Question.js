@@ -6,6 +6,10 @@ import ListItemText from "@material-ui/core/ListItemText";
 import Checkbox from "@material-ui/core/Checkbox";
 import { Button, Typography } from "@material-ui/core";
 
+let prevQuestionNumber = -1;
+
+let answerList = [];
+
 const Question = ({ questions }) => {
   const [questionNumber, setQuestionNumber] = useState(0);
   const [checkedNumber, setCheckedNumber] = useState(-1);
@@ -13,6 +17,18 @@ const Question = ({ questions }) => {
   const [userQuestionNumber, setUserQuestionNumber] = useState();
 
   const question = questions[questionNumber];
+
+  if (questionNumber == 0 && prevQuestionNumber !=0) {
+    updateQuestions(0)
+    prevQuestionNumber=0;
+  }
+
+  function updateQuestions(newQuestionNumber) {
+    var sortedArray = [...questions[newQuestionNumber].answers].sort(
+      () => Math.random() - 0.5
+    );
+    answerList = sortedArray;
+  }
 
   var checkBoxChange = (num) => {
     setCheckedNumber(num);
@@ -29,9 +45,14 @@ const Question = ({ questions }) => {
         {question.q}
       </Typography>
       <List>
-        {question.answers.map((ans, index) => (
-          <div className={colorizeAnswer(checkedNumber == ans.number)}>
-            <ListItem key={index.toString()} dense button>
+        {answerList.map((ans, index) => (
+          <div className={colorizeAnswer(ans.number)}>
+            <ListItem
+              key={index.toString()}
+              dense
+              button
+              onClick={() => checkBoxChange(ans.number)}
+            >
               <Checkbox
                 type="radio"
                 checked={checkedNumber == ans.number}
@@ -103,28 +124,44 @@ const Question = ({ questions }) => {
     }
   }
 
-  function colorizeAnswer(checked) {
+  function colorizeAnswer(ansNumber) {
+    var checked = ansNumber == checkedNumber;
+
     if (showAnswer) {
+      console.log(checked);
       if (checkedNumber != question.right && checked) {
         return "false-answer";
       } else if (checkedNumber == question.right && checked) {
+        return "right-answer";
+      }
+
+      if (ansNumber == question.right) {
         return "right-answer";
       }
     }
   }
 
   function nextQuestion() {
+    prevQuestionNumber=questionNumber;
     setShowAnswer(false);
     setCheckedNumber(-1);
-    return questionNumber + 1 > questions.length - 1
-      ? questionNumber
-      : questionNumber + 1;
+    var qNumber =
+      questionNumber + 1 > questions.length - 1
+        ? questionNumber
+        : questionNumber + 1;
+
+    updateQuestions(qNumber);
+    return qNumber;
   }
 
   function previousQuestion() {
+    prevQuestionNumber=questionNumber;
     setShowAnswer(false);
     setCheckedNumber(-1);
-    return questionNumber - 1 < 0 ? questionNumber : questionNumber - 1;
+    var qNumber = questionNumber - 1 < 0 ? questionNumber : questionNumber - 1;
+
+    updateQuestions(qNumber);
+    return qNumber;
   }
 };
 
