@@ -112,7 +112,9 @@ const Question = ({ questions }) => {
   function handleUserQuestionChoose() {
     setShowAnswer(false);
     setCheckedNumber(-1);
-    setQuestionNumber(userQuestionNumber - 1);
+    var qNumber = userQuestionNumber - 1;
+    setQuestionNumber(qNumber);
+    updateQuestions(qNumber);
   }
 
   function chooseAnswer() {
