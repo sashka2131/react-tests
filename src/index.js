@@ -17,7 +17,7 @@ const App = () => {
   return (
     <div className="App">
       <Typography class="shtativchiki" component="h1" variant="h2">
-        Штативчики объективчики ойойойойой
+        ...
       </Typography>
 
       <Question questions={data}/>
