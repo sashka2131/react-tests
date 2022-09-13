@@ -214,7 +214,6 @@ const Question = ({ questions }) => {
         <div class="find-question">
           <Button onClick={()=>findByWord()}>Find</Button>
           <TextField
-            inputProps={{ inputMode: "numeric", pattern: "[0-9]*" }}
             id="outlined-basic"
             label="Number"
             variant="outlined"
