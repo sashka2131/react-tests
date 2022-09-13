@@ -214,8 +214,9 @@ const Question = ({ questions }) => {
         <div class="find-question">
           <Button onClick={()=>findByWord()}>Find</Button>
           <TextField
+            inputProps={{ inputMode: "text"}}
             id="outlined-basic"
-            label="Number"
+            label="Search"
             variant="outlined"
             onChange={handleFindChange}
           ></TextField>
