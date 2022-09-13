@@ -16,6 +16,9 @@ const Question = ({ questions }) => {
   const [showAnswer, setShowAnswer] = useState(false);
   const [userQuestionNumber, setUserQuestionNumber] = useState("");
 
+  const [searchText, setSearchText] = useState("llllll");
+  const [foundList, setFoundList] = useState([]);
+
   const question = questions[questionNumber];
 
   if (questionNumber == 0 && prevQuestionNumber != 0) {
@@ -38,6 +41,9 @@ const Question = ({ questions }) => {
     setUserQuestionNumber(event.target.value);
   };
 
+  const handleFindChange = (event)=>{
+    setSearchText(event.target.value);
+  }
 
   function handleUserQuestionChoose() {
     setShowAnswer(false);
@@ -94,6 +100,43 @@ const Question = ({ questions }) => {
 
     updateQuestions(qNumber);
     return qNumber;
+  }
+
+  function getRightQuestion(question){
+    console.log(question)
+    var res="not found";
+    question.answers.forEach(answer => {
+      console.log(question.right)
+      if(answer.number == question.right){
+        console.log("popad:"+answer.text)
+        res = answer.text;
+        return answer.text;
+      }
+    });
+    return res;
+  }
+
+  function findByWord() {
+    var word = searchText;
+    let matchedQuestionArray = [];
+    questions.forEach ((element) => {
+       if (element.q.includes(word)) {
+         matchedQuestionArray.push(element);
+       }
+    });
+
+    setFoundList(
+      <div>
+        <List>
+          {matchedQuestionArray.map((question) => (
+            <div>
+              <Typography>{question.q}</Typography>
+              <Typography>{getRightQuestion(question)}</Typography>
+            </div>
+          ))}
+        </List>
+      </div>
+    );
   }
 
   return (
@@ -167,10 +210,22 @@ const Question = ({ questions }) => {
             onChange={handleInputChange}
           ></TextField>
         </div>
+
+        <div class="find-question">
+          <Button onClick={()=>findByWord()}>Find</Button>
+          <TextField
+            inputProps={{ inputMode: "numeric", pattern: "[0-9]*" }}
+            id="outlined-basic"
+            label="Number"
+            variant="outlined"
+            onChange={handleFindChange}
+          ></TextField>
+          <br></br>
+          {foundList}
+        </div>
       </div>
     </div>
   );
-
 };
 
 export default Question;
