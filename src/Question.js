@@ -154,7 +154,8 @@ const Question = ({ questions }) => {
   return (
     <div>
       <div>
-        <Button onClick={() => findByWord()}>Find</Button>
+      <Button onClick={() => setFoundList([])}>CLEAR</Button>
+        <Button onClick={() => findByWord()}>FIND</Button>
         <TextField
           inputProps={{ inputMode: "text" }}
           id="outlined-basic"
