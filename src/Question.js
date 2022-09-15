@@ -41,9 +41,9 @@ const Question = ({ questions }) => {
     setUserQuestionNumber(event.target.value);
   };
 
-  const handleFindChange = (event)=>{
+  const handleFindChange = (event) => {
     setSearchText(event.target.value);
-  }
+  };
 
   function handleUserQuestionChoose() {
     setShowAnswer(false);
@@ -102,13 +102,22 @@ const Question = ({ questions }) => {
     return qNumber;
   }
 
-  function getRightQuestion(question){
-    console.log(question)
-    var res="not found";
-    question.answers.forEach(answer => {
-      console.log(question.right)
-      if(answer.number == question.right){
-        console.log("popad:"+answer.text)
+  function generateNextRandom() {
+    prevQuestionNumber = questionNumber;
+    setShowAnswer(false);
+    setCheckedNumber(-1);
+    var newRandomQustionNumber = Math.floor(Math.random() * 501);
+    updateQuestions(newRandomQustionNumber);
+    return newRandomQustionNumber;
+  }
+
+  function getRightQuestion(question) {
+    console.log(question);
+    var res = "not found";
+    question.answers.forEach((answer) => {
+      console.log(question.right);
+      if (answer.number == question.right) {
+        console.log("popad:" + answer.text);
         res = answer.text;
         return answer.text;
       }
@@ -118,11 +127,14 @@ const Question = ({ questions }) => {
 
   function findByWord() {
     var word = searchText;
+    if(word.length<2){
+      return;
+    }
     let matchedQuestionArray = [];
-    questions.forEach ((element) => {
-       if (element.q.includes(word)) {
-         matchedQuestionArray.push(element);
-       }
+    questions.forEach((element) => {
+      if (element.q.toLowerCase().includes(word.toLowerCase())) {
+        matchedQuestionArray.push(element);
+      }
     });
 
     setFoundList(
@@ -141,7 +153,20 @@ const Question = ({ questions }) => {
 
   return (
     <div>
+      <div>
+        <Button onClick={() => findByWord()}>Find</Button>
+        <TextField
+          inputProps={{ inputMode: "text" }}
+          id="outlined-basic"
+          label="Search"
+          variant="outlined"
+          onChange={handleFindChange}
+        ></TextField>
+        <br></br>
+        {foundList}
+      </div>
       <Typography variant="h2">{question.number}</Typography>
+
       <Typography class="question-text" variant="h4">
         {question.q}
       </Typography>
@@ -198,6 +223,15 @@ const Question = ({ questions }) => {
         </div>
 
         <div class="find-question">
+          <Button
+            size="large"
+            onClick={() => setQuestionNumber(generateNextRandom())}
+          >
+            NEXT RANDOM
+          </Button>
+        </div>
+
+        <div class="find-question">
           <Button size="large" onClick={() => handleUserQuestionChoose()}>
             GET TEST
           </Button>
@@ -209,19 +243,6 @@ const Question = ({ questions }) => {
             variant="outlined"
             onChange={handleInputChange}
           ></TextField>
-        </div>
-
-        <div class="find-question">
-          <Button onClick={()=>findByWord()}>Find</Button>
-          <TextField
-            inputProps={{ inputMode: "text"}}
-            id="outlined-basic"
-            label="Search"
-            variant="outlined"
-            onChange={handleFindChange}
-          ></TextField>
-          <br></br>
-          {foundList}
         </div>
       </div>
     </div>
