@@ -1,22 +1,22 @@
+import { Button, TextField, Typography } from "@material-ui/core";
 import React, { useState } from "react";
-import TodoList from "./TodoList";
+
+import Checkbox from "@material-ui/core/Checkbox";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
-import Checkbox from "@material-ui/core/Checkbox";
-import { Button, TextField, Typography } from "@material-ui/core";
 
 let prevQuestionNumber = -1;
 
 let answerList = [];
 
-const Question = ({ questions }) => {
+const Question = ({ questions, isOnlySearch }) => {
   const [questionNumber, setQuestionNumber] = useState(0);
   const [checkedNumber, setCheckedNumber] = useState(-1);
   const [showAnswer, setShowAnswer] = useState(false);
   const [userQuestionNumber, setUserQuestionNumber] = useState("");
 
-  const [searchText, setSearchText] = useState("llllll");
+  const [searchText, setSearchText] = useState("");
   const [foundList, setFoundList] = useState([]);
 
   const question = questions[questionNumber];
@@ -166,6 +166,8 @@ const Question = ({ questions }) => {
         <br></br>
         {foundList}
       </div>
+      {!isOnlySearch && (
+        <>
       <Typography variant="h2">{question.number}</Typography>
 
       <Typography class="question-text" variant="h4">
@@ -245,7 +247,10 @@ const Question = ({ questions }) => {
             onChange={handleInputChange}
           ></TextField>
         </div>
+
       </div>
+      </>
+      )}
     </div>
   );
 };
